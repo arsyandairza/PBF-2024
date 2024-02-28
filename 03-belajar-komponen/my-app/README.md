@@ -141,3 +141,54 @@ export default function Bio() {
 Output:
 
 ![Output](docs/soal3.png)
+
+## Praktikum 3: Menggunakan JSX dinamis
+
+### **Langkah 1: Buat Komponen Baru**
+Buatlah file baru di `src/components/todolist.tsx` berisi kode seperti berikut:
+```tsx
+const person = {
+  name: 'Gregorio Y. Zara',
+  theme: {
+    backgroundColor: 'black',
+    color: 'pink'
+  }
+};
+
+export default function TodoList() {
+  return (
+    <div style={person.theme}>
+      <h1>{person}'s Todos</h1>
+      <img
+        className="avatar"
+        src="https://i.imgur.com/7vQD0fPs.jpg"
+        alt="Gregorio Y. Zara"
+      />
+      <ul>
+        <li>Improve the videophone</li>
+        <li>Prepare aeronautics lectures</li>
+        <li>Work on the alcohol-fuelled engine</li>
+      </ul>
+    </div>
+  );
+}
+```
+
+>Soal 4
+>
+>Kode di atas masih terdapat error, silakan diperbaiki.
+>
+>Jangan lupa push dengan pesan commit: `"W03: Jawaban soal 4"`.
+
+Jawab:
+
+Terjadi error di kode bagian
+```tsx
+<h1>{person}'s Todos</h1>
+```
+karena penggunaan objek dan properti nya tidak lengkap.
+
+Kode yang benar:
+```tsx
+<h1>{person.name}'s Todos</h1>
+```
