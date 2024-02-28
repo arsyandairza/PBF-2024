@@ -192,3 +192,39 @@ Kode yang benar:
 ```tsx
 <h1>{person.name}'s Todos</h1>
 ```
+
+
+### **Langkah 2: Impor Komponen**
+
+Lakukan impor komponen di `src/app/page.tsx` seperti berikut ini.
+
+```tsx
+import { Gallery } from "@/components/gallery";
+import TodoList from "@/components/todolist";
+
+export default function Home() {
+  return (
+    <section>
+      <h1 className="font-semibold text-slate-900 truncate pr-20 text-center">Ilmuwan yang luar biasa</h1>
+      <hr />
+      <Gallery />
+      <hr />
+      <TodoList />
+    </section>
+  );
+}
+```
+
+>Soal 5
+>
+>Buka file `src/components/todolist.tsx` lakukan ekstrak URL gambar ke dalam objek `person`.
+>
+>Capture hasilnya dan buatlah laporan di **README.md.** Apakah ada perbedaan pada tampilan web saat ini?
+>
+>Jangan lupa push dengan pesan commit: `"W03: Jawaban soal 5"`.
+
+Jawab: 
+
+![Output](docs/soal5.png)
+
+Tidak ada perbedaan pada tampilan
