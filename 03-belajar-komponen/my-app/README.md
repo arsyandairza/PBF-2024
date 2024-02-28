@@ -111,3 +111,33 @@ Kode diatas berfungsi untuk memanggil komponen Gallery
 Output: 
 ![Output](docs/soal2.png)
 
+>Soal 3
+>
+>Silakan perbaiki kode JSX berikut ini. Anda boleh menggunakan konverter atau perbaiki secara manual.
+> ![Output](docs/soal3a.png)
+> Capture hasilnya dan buatlah laporan di **README.md.** Jelaskan apa yang telah Anda pelajari dan mengapa error itu bisa terjadi?
+>
+>Jangan lupa push dengan pesan commit: `"W03: Jawaban soal 3"`.
+
+Jawab:
+Kode diatas error karena terdapat expression yang tidak satu parent elemen, dan juga penggunaan class yang harusnya menggunakan className, lalu penutup tag br yang tidak benar dan susuan tag b dan i yang belum rapih
+
+Code:
+```tsx
+export default function Bio() {
+  return (
+    <div className="intro">
+      <h1>Selamat datang di website saya!</h1>
+      <p className="summary">
+        Anda dapat membaca uneg-unegku di sini.
+        <br /><br />
+        <b>Juga ada <i>foto</i> ilmuwan!</b>
+      </p>
+    </div>
+  );
+}
+```
+
+Output:
+
+![Output](docs/soal3.png)
