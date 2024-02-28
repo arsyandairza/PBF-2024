@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 03 | Components, JSX, dan Props
 
-## Getting Started
+## Praktikum 1: Mendefinisikan Komponen
 
-First, run the development server:
+### **Langkah 1: Buat Folder Baru**
+Buatlah folder baru bernama `03-belajar-komponen` lalu di dalam folder tersebut, jalankan terminal dengan mengetikkan perintah berikut:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+npx create-next-app
+```
+### **Langkah 2: Buat Komponen Baru**
+Buatlah folder baru dan file baru di `src/components/profile.tsx` lalu ketik kode berikut ini.
+
+```tsx
+import Image from "next/image";
+
+export default function Profile() {
+    return (
+      <Image
+        src="https://i.imgur.com/MK3eW3Am.jpg"
+        alt="Katherine Johnson"
+        width={100}
+        height={100}
+        style={{
+          maxWidth: "100%",
+          height: "auto",
+          margin: "13px"
+        }}
+      />
+    );
+  }
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **Langkah 3: Import Komponen**
+Lakukan import komponen `Profile` ke `src/app/page.tsx`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```tsx
+import Profile from "../components/profile";
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+>**Soal 1**
+>
+>Ubah isi kode `Home()` sehingga dapat tampil seperti berikut dengan memanfaatkan komponen `Profile()` yang tadi sudah dibuat dari langkah 1 tersebut!
+>
+>Capture hasilnya dan buatlah laporan di **README.md**. Jelaskan apa yang telah Anda pelajari dan bagaimana Anda solve error tersebut?
+>
+>Jangan lupa push dengan pesan commit: `"W03: Jawaban soal 1"`.
 
-## Learn More
+Jawab:
 
-To learn more about Next.js, take a look at the following resources:
+Mengubah code pada file `page.tsx`
+```tsx
+export default function Home() {
+  return (
+    <main className="flex flex-col items-center">
+      <p className="justify-center mt-16">Ilmuwan yang luar biasa</p>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+      <div className="flex mt-32">
+        <Profile />
+        <div className="mx-96">
+          <Profile />
+        </div>
+        <Profile />
+      </div>
+    </main>
+  );
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Output: 
+![Output](docs/soal1.png)
