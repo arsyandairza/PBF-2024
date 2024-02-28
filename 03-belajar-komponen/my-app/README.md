@@ -69,3 +69,45 @@ export default function Home() {
 
 Output: 
 ![Output](docs/soal1.png)
+
+## Praktikum 2: Mengimpor dan Mengekspor Komponen
+
+### **Langkah 1: Buat Komponen Baru**
+Buatlah file baru di `src/components/gallery.tsx` berisi kode seperti berikut:
+```tsx
+import Profile from "./profile";
+
+export function Gallery() {
+    return (
+        <div className="columns-3">
+            <Profile />
+            <Profile />
+            <Profile />
+        </div>
+    );
+}
+```
+
+### **Langkah 2: Impor Komponen**
+Lakukan impor komponen di `src/app/page.tsx` seperti berikut ini. Hapus kode komponen lama `Profile`, lalu sesuaikan dengan komponen baru `Gallery` yang telah dibuat.
+```tsx
+import { Gallery } from "@/components/gallery";
+```
+
+>Soal 2
+>
+>Capture hasilnya dan buatlah laporan di **README.md.** Jelaskan apa yang telah Anda pelajari dan bagaimana tampilannya saat ini?
+>
+>Jangan lupa push dengan pesan commit: `"W03: Jawaban soal 2"`.
+
+Jawab:
+
+Dengan menambahkan kode pada file page.tsx
+```tsx
+{ <Gallery /> }
+```
+Kode diatas berfungsi untuk memanggil komponen Gallery
+
+Output: 
+![Output](docs/soal2.png)
+
