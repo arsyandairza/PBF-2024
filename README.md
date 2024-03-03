@@ -14,5 +14,11 @@
 ### For more information
 - Email     : arsyandairza123@gmail.com
 - Instagram : irrzzz_
-  
+
+
+|Weeks           |PROJECTS                       |LINKS                        |
+|----------------|-------------------------------|-----------------------------|
+|Week 01         |`Praktikum 1`|  
+|Week 02         |`Praktikum 2`|https://github.com/arsyandairza/02-react-hello-world|
+|Week 03         |`Praktikum 3`|https://github.com/arsyandairza/PBF-2024/tree/main/03-belajar-komponen|             
 --------------
