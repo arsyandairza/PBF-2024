@@ -1,6 +1,6 @@
 export default function MyProfileV2() {
     return (
-      <div>
+      <div className="flex">
         <div className="card">
           <div className="card-content">
             <h1>Foto</h1>
@@ -16,9 +16,10 @@ export default function MyProfileV2() {
         <div className="card">
           <div className="card-content">
             <h1>Tentang</h1>
-            <p>Aklilu Lemma adalah seorang ilmuwan terkemuka dari etiopia yang telah menemukan pengobatan alami untuk skistosomiasis.</p>
+            <p>Aklilu Lemma adalah seorang ilmuwan terkemuka dari Etiopia yang telah menemukan pengobatan alami untuk skistosomiasis.</p>
           </div>
         </div>
       </div>
     );
   }
+  
