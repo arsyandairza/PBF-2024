@@ -228,3 +228,16 @@ Jawab:
 ![Output](docs/soal5.png)
 
 Tidak ada perbedaan pada tampilan
+
+>Soal6
+>
+>Perbaiki kode tersebut pada bagian atribut src. Kode lainnya dapat Anda sesuaikan dari jawaban soal sebelumnya. Capture hasilnya dan buatlah laporan di README.md. Jelaskan apa yang telah Anda pelajari dan bagaimana tampilannya saat ini?
+>
+>Jangan lupa push dengan pesan commit: `"W03: Jawaban soal 6"`
+
+Jawab:
+![Output](docs/soal6.png)
+
+>tampilan saat ini tetap, tetapi pada kodingan perlu ditambahkan ` {}, $, dan `` ` agar url dapat digunakan dengan cara pemanggilan tersebut. Dengan cara pemanggilan tersebut, `saya dapat mengubah imageId dan imageSize menjadi lebih fleksibel tanpa harus mengubah link secara keseluruhan`
+
+
