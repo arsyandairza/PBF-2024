@@ -304,3 +304,19 @@ Jawab:
 
 >(`Gambar tidak muncul dikarenakan kode pada bagian getimageurl masih belum fiks)`
 
+#### Soal 8
+>Jika kode di atas terdapat error, silakan diperbaiki.
+>
+>Ubahlah komponen MyAvatar untuk diolah ukuran gambarnya berdasarkan prop size. Khususnya, jika size kurang dari 90, kirimkan 's' ("small") bukan 'b' ("big") pada fungsi getImageUrl. Pastikan bahwa perubahan yang Anda buat berjalan dengan cara me-render avatars dengan nilai prop size yang berbeda dan buka gambar pada tab baru di browser.
+>
+>Capture hasilnya dan buatlah laporan di README.md. Jelaskan apa yang telah Anda pelajari dan bagaimana tampilannya saat ini?
+>
+>Jangan lupa push dengan pesan commit: "W03: 
+Jawaban soal 8".
+
+Jawab: 
+
+![Output](docs/soal8.png)
+
+> Dengan ditambahkan nya ternary operator pada bagian getImageUrl seperti ini ``` size < 90 ? 's' : 'b'``` , maka jika size kurang dari `90`, gambar akan otomatis berubah ke size 's' dan jika lebih dari 90 maka akan berubah ke size `'b'`, hal ini dapat terlihat dari perbedaan kerapatan pixel gambar pada saat size berada dibawah `90` maka gambar akan `lebih blur dan sebaliknya`. (sayangnya saya tidak bisa menunjukkan secara jelas perbedaan gambarnya karena pada saat dibuka linknya pada tab baru,`website nya merespon 404`.
+
