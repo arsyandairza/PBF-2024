@@ -320,3 +320,18 @@ Jawab:
 
 > Dengan ditambahkan nya ternary operator pada bagian getImageUrl seperti ini ``` size < 90 ? 's' : 'b'``` , maka jika size kurang dari `90`, gambar akan otomatis berubah ke size 's' dan jika lebih dari 90 maka akan berubah ke size `'b'`, hal ini dapat terlihat dari perbedaan kerapatan pixel gambar pada saat size berada dibawah `90` maka gambar akan `lebih blur dan sebaliknya`. (sayangnya saya tidak bisa menunjukkan secara jelas perbedaan gambarnya karena pada saat dibuka linknya pada tab baru,`website nya merespon 404`.
 
+#### Soal 9 
+
+>Jika kode di atas terdapat error, silakan diperbaiki.
+>
+>Buatlah komponen Card dari kode di atas, lalu gunakan prop children untuk mengirimkan JSX yang berbeda.
+>
+>Capture hasilnya dan buatlah laporan di README.md. Jelaskan apa yang telah Anda pelajari dan bagaimana tampilannya saat ini?
+>
+>Jangan lupa push dengan pesan commit: "W03: Jawaban soal 9".
+
+Jawab: 
+
+![Output](docs/soal9.png)
+
+Yang saya lakukan pada komponen Card tersebut adalah mengisi prop children dengan berbagai konten. Komponen card fleksibel terhadap isi dari konten yang di render di dalam komponen tersebut sehingga dapat dijadikan sebagai pembungkus konten lainnya.
