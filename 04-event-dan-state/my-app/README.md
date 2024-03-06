@@ -416,7 +416,204 @@ export default function Gallery() {
 }
 ```
 Jalankan pada browser dan amati apa yang terjadi.
-![Output](docs/ss8.png)
+![Output](docs/L2P4.png)
 Ketika `button` artikel selanjutnya di klik, maka artikel yang ditampilkan akan berganti
 
 Silahkan *di commit untuk Praktikum 4*
+
+**Mengelola State**
+### **Praktikum 5**
+
+**Langkah 1**
+Kita buat komponen baru `src/components/form.tsx`
+```tsx
+import { useState } from "react";
+
+export default function Form(){
+    const [jawaban, setJawaban] = useState('');
+    const [error, setError] = useState(null);
+    const [status, setStatus] = useState('typing');
+
+    if (status == 'success') {
+        return <h1>Yay... Jawaban Benar|</h1>
+    }
+
+    async function handleSubmit(e: { preventDefault: () => void; }) {
+        e.preventDefault();
+        setStatus('submitting');
+        try {
+            await submitForm(jawaban);
+            setStatus ('success');
+        } catch (err) {
+            setStatus('typing');
+            setError(err);
+        }
+    }
+
+    function handleTextareaChange(e) {
+        setJawaban(e.target.value);
+    }
+
+    return (
+        <>
+            <div className="w-full max-w-xs">
+                <h2>Tebak Nama Hewan</h2>
+                <p>Hewan apa yang ditakuti oleh doraemon?</p>
+                <form
+                    className="shadow-md rounded px-8 pt-6 pb-8 mb-4 text-black border-gray-400"
+                    onSubmit={handleSubmit}>
+                    <textarea
+                        value={jawaban}
+                        onChange={handleTextareaChange}
+                        disabled={status === 'submitting'}
+                    />
+                    <br />
+                    <button
+                        className="bg-blue-400 p-2 m-2 rounded text-sm text-white"
+                        disabled={jawaban.length === 0 || status === 'submitting'}>
+                        Submit
+                    </button>
+                    {error !== null && <p className="Error text-red-500 text-sm">{error.message}</p>}
+                </form>
+            </div>
+        </>
+    );
+}
+
+function submitForm(jawaban) {
+    // Anggap kode ini melakukan *request*
+    return new Promise<void>((resolve, reject) => {
+        setTimeout (() => {
+            let shouldError = jawaban.toLowerCase() |== 'tikus'
+            if (shouldError) {
+                reject (new Error ('Tebakan yang bagus tetapi jawaban salah. Silahkan coba lagi!'));
+            } else {
+                resolve();
+            }
+        }, 500); // set timeout selama 0,5 detik
+    }) ;
+}
+```
+Kemudian kita tambahkan kode pada file `page.tsx`
+```tsx
+"use client";
+import Tombol_1, { Tombol_2, Tombol_3 } from "@/components/button";
+import Form from "@/components/form";
+import Gallery from "@/components/gallery";
+
+export default function Home() {
+    return (
+        <>
+          <div className="container mx-auto">
+              <h2>Kuis Kota</h2>
+              <Tombol_1/>
+              <hr></hr>
+              <Tombol_2 isiPesan="Ini Pesanku" namaTombol="Pesan" />
+          </div>
+              <br></br>
+          <div className="bg-red-300" onClick={() => alert('Parent Element : Div')}>
+            <Tombol_3 isiPesan="Child Element : Tombol-1" namaTombol="Tombol-1" />
+            <Tombol_3 isiPesan="Child Element : Tombol-2" namaTombol="Tombol-2" />
+          </div>
+              <br></br>
+            <Gallery />
+            Jalankan pada browser, amati dan laporkan apa yang terjadi..!!  <br></br>
+            <Form />
+        </>
+    );
+}
+```
+Jalankan pada browser, amati dan laporkan apa yang terjadi..!!
+
+![Output](docs/L1P5.png)
+Akan muncil sebuah box form seperti gambar diatas yang bisa kita submit text untuk mendapat respon dari form tersebut
+
+Jika jawaban benar maka akan menampilkan text seperti dibawah
+![Output](docs/L1.2P5.png)
+
+Dan jika salah makan menampilkan text
+![Output](docs/L1.3P5.png)
+
+<br>
+
+**Memilih struktur state**<p>
+Mengatur struktur state dengan baik dapat membuat perbedaan antara komponen yang mudah dimodifikasi dan di-*debug*, dan komponen yang selalu menjadi sumber *error*. Perlu dicatat bahwa ***state***
+
+**tidak boleh** mengandung informasi yang tidak perlu atau duplikat. Karena jika ada *state* yang tidak perlu, mudah untuk lupa memperbarui *state* tersebut, yang akhirnya memperkenalkan masalah baru!
+
+Misalnya, formulir ini memiliki variabel state fullName yang **redundan**:
+
+<br>
+
+**Langkah 2**
+
+Kita tambahkan kode berikut pada `src/component/form.tsx`
+```tsx
+export function Form_2() {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [fullName, setFullName] = useState('');
+
+    function handleFirstNameChange(e) {
+        setFirstName(e.target.value);
+        setFullName(e.target.value + ' ' + lastName);
+    }
+
+    function handleLastNameChange(e) {
+        setLastName(e.target.value);
+        setFullName(firstName + ' ' + e.target.value);
+    }
+
+    return (
+        <>
+            <h2>Silahkan isi nama lengkap anda</h2>
+            <label className="block w-full m-2">
+                Nama depan
+                <input className="text-sm text-black ml-2 rounded"
+                    value={firstName}
+                    onChange={handleFirstNameChange}
+                />
+            </label>
+
+            <label className="block w-full m-2">
+                Nama belakang:
+                <input className="text-sm text-black ml-2 rounded"
+                    value={lastName}
+                    onChange={handleLastNameChange}
+                />
+            </label>
+            <p>Nama lengkap Anda adalah : <b className=" text-blue-600">(fullName)</b></p>
+        </>
+    );
+}
+```
+Kemudian tambahkan ke `page.tsx`
+```tsx
+    <br></br>
+<Form_2 />
+    </>
+```
+Jalankan pada browser dan amati...!!!
+![Output](docs/L2P5.png)
+
+Kita tahu bahwa state fullName hanya merupakan gabungan string dari state firstName dan lastName. Hal ini membuat state redundan, dan bisa membuat kesalahan/bug pada aplikasi react/nextjs. Untuk itu, state fullName bisa dihapus dan digantikan variable biasa.
+
+Coba perhatikan dan implementasikan kode berikut pada `src/component/form.tsx`
+```tsx
+export function Form_2() {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+
+    const fullName = firstName + ' ' + lastName;
+
+    function handleFirstNameChange(e) {
+        setFirstName(e.target.value);
+    }
+
+    function handleLastNameChange(e) {
+        setLastName(e.target.value);
+    }
+```
+Jalankan pada browser dan amati apa yang terjadi.
+
+![Output](docs/L2.1P5.png)
