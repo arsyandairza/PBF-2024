@@ -90,7 +90,7 @@ return (
             onClick={handleClick}
             // onMouseOver={handleMouseOver}
             onMouseLeave={() => {
-                alert("Loh, kok sudah pergi!!!")
+                alert("Eits, mau mencet tombol ya?")
                 }
             }
         >
@@ -114,3 +114,52 @@ Perbedaannya tipis. Pada contoh pertama, fungsi `handleClick` dioper sebagai eve
 Pada contoh kedua, tanda () di akhir `handleClick()` akan menjalankan fungsi tersebut langsung saat proses render, tanpa adanya klik. Ini karena JavaScript di dalam tag JSX { dan } dieksekusi secara langsung.
 
 Silahkan *di commit untuk Praktikum 1*
+
+Kita buat fungsi baru pada component `button.tsx`
+```tsx
+export function Tombol_2({isiPesan, namaTombol}) {
+    return (
+        <button
+            className="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded"
+            onClick={() => alert(isiPesan)}>
+            {namaTombol}
+        </button>
+    );
+}
+```
+
+**Ingat!**
+
+Pada component, hanya ada 1 fungsi yang memiliki `default` !
+
+Parameter `isiPesan` dan `namaTombol` bisa diisi oleh layout yang ada di `page.tsx` nanti, sehingga komponen `Tombol_2` bernilai dinamis.
+
+Sekarang kita modifikasi file `page.tsx` seperti berikut
+```tsx
+"use client";
+import Tombol_1, { Tombol_2 } from "@/components/button";
+
+export default function Home() {
+    return (
+        <>
+          <div className="container mx-auto">
+              <h2>Kuis Kota</h2>
+              <Tombol_1/>
+              <hr></hr>
+              <Tombol_2 isiPesan="Ini Pesanku" namaTombol="Pesan" />
+          </div>
+        </>
+    );
+}
+```
+
+Coba cek di browser dan amati apa yang terjadi?
+![Output](docs/ss1P2.png)
+
+![Output](docs/ss2P2.png)
+
+Jelaskan mengapa bisa seperti itu?
+
+Karena kita menambahkan komponen baru pada file `button.tsx` dan parameter yang ada pada komponen baru tersebut diisi oleh layout yang ada di file `page.tsx` sehingga komponen baru tersebut bernilai dinamis
+
+Silahkan *di commit untuk Praktikum 2*
