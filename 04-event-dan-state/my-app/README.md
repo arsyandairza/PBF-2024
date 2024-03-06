@@ -249,3 +249,174 @@ export function Tombol_3({isiPesan, namaTombol}) {
 ```
 <br>
 <br>
+
+
+## **State**
+
+### **Praktikum 4**
+**Langkah 1** <p>
+Kita buat file data dummy untuk mencoba state pada `src/data/article.js` yang berisi seperti berikut
+```js
+export const sculptureList = [{
+    name: 'Homenaje a la Neurocirugía',
+    artist: 'Marta Colvin Andrade',
+    description: 'Although Colvin is predominantly known for abstract themes that allude to pre-Hispanic symbols, this gigantic sculpture, an homage to neurosurgery, is one of her most recognizable public art pieces.',
+    url: 'https://i.imgur.com/Mx7dA2Y.jpg',
+    alt: 'A bronze statue of two crossed hands delicately holding a human brain in their fingertips.'  
+  }, {
+    name: 'Floralis Genérica',
+    artist: 'Eduardo Catalano',
+    description: 'This enormous (75 ft. or 23m) silver flower is located in Buenos Aires. It is designed to move, closing its petals in the evening or when strong winds blow and opening them in the morning.',
+    url: 'https://i.imgur.com/ZF6s192m.jpg',
+    alt: 'A gigantic metallic flower sculpture with reflective mirror-like petals and strong stamens.'
+  }, {
+    name: 'Eternal Presence',
+    artist: 'John Woodrow Wilson',
+    description: 'Wilson was known for his preoccupation with equality, social justice, as well as the essential and spiritual qualities of humankind. This massive (7ft. or 2,13m) bronze represents what he described as "a symbolic Black presence infused with a sense of universal humanity."',
+    url: 'https://i.imgur.com/aTtVpES.jpg',
+    alt: 'The sculpture depicting a human head seems ever-present and solemn. It radiates calm and serenity.'
+  }, {
+    name: 'Moai',
+    artist: 'Unknown Artist',
+    description: 'Located on the Easter Island, there are 1,000 moai, or extant monumental statues, created by the early Rapa Nui people, which some believe represented deified ancestors.',
+    url: 'https://i.imgur.com/RCwLEoQm.jpg',
+    alt: 'Three monumental stone busts with the heads that are disproportionately large with somber faces.'
+  }, {
+    name: 'Blue Nana',
+    artist: 'Niki de Saint Phalle',
+    description: 'The Nanas are triumphant creatures, symbols of femininity and maternity. Initially, Saint Phalle used fabric and found objects for the Nanas, and later on introduced polyester to achieve a more vibrant effect.',
+    url: 'https://i.imgur.com/Sd1AgUOm.jpg',
+    alt: 'A large mosaic sculpture of a whimsical dancing female figure in a colorful costume emanating joy.'
+  }];
+```
+
+Kemudian kita coba buat komponen baru di `src/component/gallery.tsx`
+```tsx
+import {sculptureList} from '@/data/article'; // ambil data yang sudah ada
+
+export default function Gallery() {
+    let index = 0;  // index data mulai dari nol
+
+    function handleClick() {
+        index = index + 1; // counter index + 1, utk melihat data selanjutnya
+    }
+
+    let sculpture = sculptureList[index]; // membacca data sesuai dengan index
+
+    return (
+        <>
+            <button
+                onClick={handleClick}
+                className="bg-blue-500 hover:bg-blue-700 p-2 m-2 rounded"> Artikel Selanjutnya</button>
+            <h2><i>{sculpture.name} </i> oleh {sculpture.artist} </h2>
+            <h3>({index + 1}) dari {sculptureList.length} </h3>
+            <img src={sculpture.url} alt={sculpture.alt} />
+            <p>
+                {sculpture.description}
+            </p>
+        </>
+    )
+}
+```
+Kita panggil komponen tersebut pada `page.tsx`
+```tsx
+"use client";
+import Tombol_1, { Tombol_2, Tombol_3 } from "@/components/button";
+import Gallery from "@/components/gallery";
+
+export default function Home() {
+    return (
+        <>
+          <div className="container mx-auto">
+              <h2>Kuis Kota</h2>
+              <Tombol_1/>
+              <hr></hr>
+              <Tombol_2 isiPesan="Ini Pesanku" namaTombol="Pesan" />
+          </div>
+              <br></br>
+          <div className="bg-red-300" onClick={() => alert('Parent Element : Div')}>
+            <Tombol_3 isiPesan="Child Element : Tombol-1" namaTombol="Tombol-1" />
+            <Tombol_3 isiPesan="Child Element : Tombol-2" namaTombol="Tombol-2" />
+          </div>
+              <br></br>
+            <Gallery />
+        </>
+    );
+}
+```
+Sekarang coba di browser dan klik tombol "Artikel Selanjutnya" dan perhatikan apa yang terjadi...!!!
+![Output](docs/L1P4.png)
+Tidak terjadi apa apa
+
+Event handler handleClick memperbarui nilai variabel index. Namun dua hal mencegah pembaruan tersebut ditampilkan ke pengguna:
+
+1. **Variabel lokal tidak dipertahankan antar-render**. Saat React me-render komponen ini untuk kedua kalinya, react membuat ulang dari awal, sehingga index tetap bernilai 0 dan react tidak memperhatikan adanya perubahan ke variabel index tersebut.
+2. **Perubahan terhadap variabel lokal tidak memicu render**. React tidak menyadari kalau dia perlu melakukan render ulang dengan data yang baru.
+
+Untuk memperbarui komponen dengan data baru, dua hal perlu terjadi:
+1. **Mempertahankan** data antar-render.
+2. **Memicu** React untuk merender ulang komponennya dengan data baru.
+
+<br>
+<br>
+
+**Menambahkan variabel *state***
+
+**Langkah 2**
+
+Untuk menambahkan variabel state, impor useState dari React di paling atas file `src/components/gallery.tsx`
+```tsx
+ import { useState } from 'react';
+```
+Lalu, ubah baris berikut:
+
+`let index = 0;`
+
+menjadi
+
+`const [index, setIndex] = useState(0);`
+
+index merupakan variabel state dan setIndex adalah fungsi setter.
+
+Ubah fungsi dalam handleClick menjadi seperti ini
+
+`function handleClick() {
+setIndex(index + 1); // counter index + 1, utk melihat data selanjutnya
+}`
+
+Maka kode pada gallery.tsx seperti berikut
+```tsx
+import {sculptureList} from '@/data/article'; // ambil data yang sudah ada
+import { useState } from 'react';
+
+export default function Gallery() {
+    // let index = 0;  // index data mulai dari nol
+    const [index, setIndex] = useState(0);
+
+    function handleClick() {
+        // index = index + 1; // counter index + 1, utk melihat data selanjutnya
+        setIndex(index + 1); // counter index + 1, utk melihat data selanjutnya
+    }
+
+    let sculpture = sculptureList[index]; // membacca data sesuai dengan index
+
+    return (
+        <>
+            <button
+                onClick={handleClick}
+                className="bg-blue-500 hover:bg-blue-700 p-2 m-2 rounded"> Artikel Selanjutnya</button>
+            <h2><i>{sculpture.name} </i> oleh {sculpture.artist} </h2>
+            <h3>({index + 1}) dari {sculptureList.length} </h3>
+            <img src={sculpture.url} alt={sculpture.alt} />
+            <p>
+                {sculpture.description}
+            </p>
+        </>
+    )
+}
+```
+Jalankan pada browser dan amati apa yang terjadi.
+![Output](docs/ss8.png)
+Ketika `button` artikel selanjutnya di klik, maka artikel yang ditampilkan akan berganti
+
+Silahkan *di commit untuk Praktikum 4*
