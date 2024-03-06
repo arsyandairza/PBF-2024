@@ -8,8 +8,15 @@ export function Tombol_2({isiPesan, namaTombol}) {
     );
 }
 
-
-
+export function Tombol_3({isiPesan, namaTombol}) {
+    return (
+        <button
+            className="bg-green-400 hover:bg-green-700 text-white p-2 rounded m-2"
+            onClick={() => alert(isiPesan)}>
+            {namaTombol}
+        </button>
+    );
+}
 
 
 export default function Tombol_1() {

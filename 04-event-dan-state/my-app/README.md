@@ -163,3 +163,89 @@ Jelaskan mengapa bisa seperti itu?
 Karena kita menambahkan komponen baru pada file `button.tsx` dan parameter yang ada pada komponen baru tersebut diisi oleh layout yang ada di file `page.tsx` sehingga komponen baru tersebut bernilai dinamis
 
 Silahkan *di commit untuk Praktikum 2*
+
+### **Praktikum 3**
+**Langkah 1 - Propagation**
+Sebagai contoh coba kita modifikasi file `button.tsx` seperti berikut
+```tsx
+export function Tombol_2({isiPesan, namaTombol}) {
+    return (
+        <button
+            className="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded"
+            onClick={() => alert(isiPesan)}>
+            {namaTombol}
+        </button>
+    );
+}
+
+export function Tombol_3({isiPesan, namaTombol}) {
+    return (
+        <button
+            className="bg-green-400 hover:bg-green-700 text-white p-2 rounded m-2"
+            onClick={() => alert(isiPesan)}>
+            {namaTombol}
+        </button>
+    );
+}
+```
+Kemudian kita modifikasi fiile `page.tsx`
+```tsx
+"use client";
+import Tombol_1, { Tombol_2, Tombol_3 } from "@/components/button";
+
+export default function Home() {
+    return (
+        <>
+          <div className="container mx-auto">
+              <h2>Kuis Kota</h2>
+              <Tombol_1/>
+              <hr></hr>
+              <Tombol_2 isiPesan="Ini Pesanku" namaTombol="Pesan" />
+          </div>
+              <br></br>
+          <div className="bg-red-300" onClick={() => alert('Parent Element : Div')}>
+            <Tombol_3 isiPesan="Child Element : Tombol-1" namaTombol="Tombol-1" />
+            <Tombol_3 isiPesan="Child Element : Tombol-2" namaTombol="Tombol-2" />
+          </div>
+        </>
+    );
+}
+```
+
+Kemudian kita jalankan di browser, coba klik **Tombol-1**, dan amati apa yang terjadi...!!!
+
+![Output](docs/L1P3.png)
+![Output](docs/L1.2P3.png.png)
+
+Kita akan disuguhkan dengan pesan/alert sebanyak 2 kali, yaitu Pesan ***"Child Element : Tombol-1"*** dan pesan ***"Parent Element : Div"***.
+
+Hal ini terjadi karena baik untuk element **div** maupun **button** memiliki event yang sama yaitu onClick, sehingga ketika button diklik maka event handler untuk onClick pada button akan dijalankan. Kemudian baru event handler dari parent (element div) akan dijalankan.
+
+Hal ini disebut dengan propagation, dan biasa terjadi pada elemen child dan parent yang memiliki event yang sama.
+<br>
+<br>
+<br>
+**Menghentikan Propagation**
+
+*Event handler* menerima sebuah **objek event** sebagai satu-satunya argumen/parameter. Berdasarkan konvensi, objek tersebut biasanya ditulis **e** yang merupakan kepanjangan dari *"event"*. Anda dapat menggunakan objek ini untuk membaca informasi tentang event tersebut.
+
+Objek event tersebut juga dapat memungkinkan untuk menghentikan propagasi. Jika kita ingin mencegah sebuah event untuk mencapai komponen induknya *(propagation)*, Kita harus memanggil e.stopPropagation() untuk mencegah propagasi.
+
+**Langkah 2 - Stop Propagation**
+```tsx
+export function Tombol_3({isiPesan, namaTombol}) {
+    return (
+        <button
+            className="bg-green-400 hover:bg-green-700 text-white p-2 rounded m-2"
+            onClick={(e) => {
+                    e.stopPropagation();
+                    alert(isiPesan)
+                }
+            }>
+            {namaTombol}
+        </button>
+    );
+}
+```
+<br>
+<br>
