@@ -617,3 +617,83 @@ export function Form_2() {
 Jalankan pada browser dan amati apa yang terjadi.
 
 ![Output](docs/L2.1P5.png)
+
+**Soal**
+
+1. **Apa perbedaan dari fungsi Form_2 yang pertama dengan yang kedua?**
+
+>Fungsi pertama yaitu handleFirstName() berfungsi untuk memperbarui state fullName pada bagian firstName dengan mengambil value yang diinputkan, ditambah dengan state lastName saat ini. Sedangkan handleLastName() berfungsi sebaliknya yaitu utnuk memperbarui bagian lastName pada state fullName, dengan menambahkan state fisrtName saat ini dengan value yang diinputkan.
+
+2. **Kenapa perlu menghapus state fullName? Apa keuntungannya?**
+
+>Karena fullName cukup diinisialisasi diawal kalau merupakan hasil dari firstName ditambah lastName, sehingga tidak perlu melewati function handle dari firstName maupun lastName untuk mengset ulang fullName ketika akan ada perubahan, sehingga hal ini akan mengurangi aksi yang dilakukan, jika sebelumnya setiap fucntion memiliki aksi untuk melakukan perbaruan ke fullName, maka sekarang cukup menginisialisasi variabel fullName di awal saja. Meskipun begitu, hasil yann ditampilkan tetap sama dengan sebelumnya.
+
+
+### **Praktikum 6**
+
+**Langkah 1** 
+
+Kita buat file komponen pada `src/components/accordion.tsx`
+
+![Output](docs/L1P6.png)
+
+Lalu kita tambahkan component Accordion ke file `page.tsx`
+
+```tsx
+"use client";
+import Accordion from "@/component/accordion";
+import Tombol_1, { Tombol_2, Tombol_3 } from "@/component/button";
+import Messenger, { Chat } from "@/component/chat";
+import Form, { Form_2 } from "@/component/form";
+import Gallery from "@/component/gallery";
+
+
+export default function Home() {
+  return (
+    <>
+      <div className="container mx-auto">
+        <h2>Kuis Kota</h2>
+        <Tombol_1 />
+        <hr></hr>
+        <Tombol_2 isiPesan="Ini Pesanku" namaTombol="Pesan" />
+      </div>
+      <br></br>
+      <div className="bg-red-300" onClick={() => alert('Parent Element : Div')}>
+        <Tombol_3 isiPesan="Child Element : Tombol-1" namaTombol="Tombol-1" /> 
+        <Tombol_3 isiPesan="Child Element : Tombol-2" namaTombol="Tombol-2" /> 
+      </div>
+      <br></br>
+      <Gallery />
+      <br></br>
+      <Form />
+      <br></br>
+      <Form_2 />
+      <br></br>
+      <Accordion />
+      <br></br>
+      <Messenger />
+    </>
+  );
+}
+```
+
+**Amati dan laporkan apa yang terjadi?**
+
+>Setiap panel ditampilkan secara bergantian, tergantung panel mana yang diklik "Tampilkan". Hal tersebut dapat terjadi dengan mengecek kondisi antara activeIndex saat ini dengan value dari setiap panel, jika panel memiliki activeIndex dan value yang sesuai maka teks akan ditampilkan. Saat button "Tampilkan" diklik maka activeIndex saat ini juga akan ikut berubah.
+
+**Langkah 2**
+
+![Output](Docs/L2P6.png)
+
+>Perbedaan yang cukup jelas terlihat adalah dimana saat tidak menggunakan key, input yang dimasukkan ditext area akan tetap terbawa atau ada walaupun sudah berpindah kontak, sedangkan ketika menggunakan key, input tersebut akan hilang jika berpindah kontak.
+
+
+**Soal**
+
+1. Apa tujuan dari penulisan ini key={to.email} pada < Chat key={to.email} contact={to} / > ?
+
+Props tersebut ditunjukkan untuk memberikan identitas unik untuk setiap komponen, sehingga tidak akan dianggap sebagai komponen yang sama.
+
+2. Apa fungsi dari props key tersebut?
+
+Dengan menggunakan props key tersebut, maka suatu aksi akan berpengaruh ke komponen dengan key yang sesuai saja, tidak diterapkan ke semua komponen walaupun struktur nya sama, contohnya seperti pada praktikum 6 ini. Input yang dimasukkan ditext area akan tetap terbawa atau ada walaupun sudah berpindah kontak, sedangkan ketika menggunakan key, input tersebut akan hilang jika berpindah kontak.
