@@ -22,4 +22,5 @@
 |Week 02         |`Praktikum 2`|https://github.com/arsyandairza/02-react-hello-world|
 |Week 03         |`Praktikum 3`|https://github.com/arsyandairza/PBF-2024/tree/main/03-belajar-komponen|
 |Week 04         |`Praktikum 4`|https://github.com/arsyandairza/PBF-2024/tree/main/04-event-dan-state|
+|Week 05         |`Praktikum 5`|https://github.com/arsyandairza/05-ReactJS-NextJS|
 --------------
