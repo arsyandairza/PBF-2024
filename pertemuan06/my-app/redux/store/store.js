@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authReducer from '../auth/authSlice';
 import storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import counterReducer from '../counter/naikTurunSlice';
 
 const persistConfig = {
     key: process.env.NEXT_PUBLIC_FINGERPRINT_NAME,  
@@ -11,6 +12,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     auth:authReducer,
+    counter: counterReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

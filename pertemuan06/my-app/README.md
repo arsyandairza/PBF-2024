@@ -182,4 +182,124 @@ export { store, persistor };
 >react tidak dapat mengkonversi string HTML menjadi elemen React secara otomatis. Sebagai gantinya,akan mengirimkan `string HTML mentah ke JSX`, yang tidak akan dikenali oleh React sebagai elemen React yang valid, sehingga akan muncul error tersebut.
 
 
+## Praktikum 3: Membuat Aplikasi Counter Sederhana
 
+#### Langkah 1:
+>Kita buat file di `redux/counter/naikTurunSlice.js`
+
+``` tsx
+const { createSlice } = require("@reduxjs/toolkit");
+
+export const naikTurunSlice = createSlice({
+    name: 'CounterNaikTurun',
+    initialState:{
+        totalCounter: 0
+    },
+    reducers:{
+        tambahCounter(state){
+            state.totalCounter += 1;
+        },
+        kurangCounter(state){
+            state.totalCounter -= 1;
+        }
+    },
+})
+
+export const {tambahCounter, kurangCounter} = naikTurunSlice.actions;
+export default naikTurunSlice.reducer;
+```
+
+#### Langkah 2:
+>Setelah itu kita modifikasi `redux/store/store.js` untuk menambahkan Redux reducer pada store
+
+``` tsx
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import authReducer from '../auth/authSlice';
+import storage from 'redux-persist/lib/storage';
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import counterReducer from '../counter/naikTurunSlice';
+
+const persistConfig = {
+    key: process.env.NEXT_PUBLIC_FINGERPRINT_NAME,  
+    storage,
+    whitelist: ['auth'],
+};
+
+const rootReducer = combineReducers({
+    auth:authReducer,
+    counter: counterReducer,
+})
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+        }),
+});
+
+const persistor = persistStore(store);
+export { store, persistor };
+```
+
+### Langkah 3:
+>Kita buat file baru di `pages/counter.tsx`
+
+``` tsx
+import { tambahCounter, kurangCounter } from "@/redux/counter/naikTurunSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+export default function CounterNaikTurun(){
+    const {totalCounter} = useSelector((state)=> state.counter);
+
+    const dispatch = useDispatch();
+
+    function tombolTambah(){
+        dispatch(tambahCounter())
+    }
+
+    function tombolKurang(){
+        if(totalCounter > 0){
+            dispatch(kurangCounter())
+        } else{
+            alert('Minimal 0')
+        }
+    }
+    return(
+        <div className="container">
+            <div className="row">
+                <div className="col-12">
+                    <div className="card mt-3">
+                        <div className="card-header"> Total Mobil saya</div>
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col-1 mt-2">Jumlah: </div>
+                                <div className="col-2">
+                                    <div className="input-group mb-3">
+                                        <button className="btn btn-outline-secondary" onClick={()=> tombolKurang()}>
+                                            -
+                                        </button>
+                                        <span className="form-control text-center">{totalCounter}</span>
+                                        <button className="btn btn-outline-success" onClick={()=> tombolTambah()}>
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+```
+
+## Hasil: 
+
+>Kemudian kita jalankan di browser dengan url `localhost:3000/counter,`dan amati apa yang terjadi?
+
+![Output](docs/image/hasilP3.gif)
