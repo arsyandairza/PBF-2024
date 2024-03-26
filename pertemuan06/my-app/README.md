@@ -78,3 +78,108 @@ export default function Home() {
 ## Hasil
 
 ![Output](docs/image/hasil.png)
+
+## Praktikum 2: Contoh Login dengan Redux
+
+#### Langkah 1
+>Komponen yang digunakan pada praktikum kali ini adalah redux-toolkit dan redux-persistent sehingga kita perlu menginstall-nya
+
+```
+npm i --save redux-persist react-redux @reduxjs/toolkit
+```
+
+>Selanjutnya kita install wrapper untuk redux di `next.js`
+
+```
+npm i --save next-redux-wrapper
+```
+
+>Selain itu, kita akan menggunakan html parser yang ada di `react`. Hal ini kita gunakan untuk memparsing html string menjadi sebuah html page
+
+```
+npm install html-react-parser
+```
+
+![Output](docs/image/L1P2.png)
+
+#### Langkah 2: 
+
+>Setelah berhasil menginstal kita cek di file `package.json` apakah library sudah ada
+
+![Output](docs/image/L2P2.png)
+
+#### Langkah 3:
+
+``` tsx
+import {createSlice} from '@reduxjs/toolkit';
+
+export const initialState = {
+    isLogin: false,
+}
+
+const authSlice = createSlice({
+    name: 'auth',
+    initialState,
+    reducers:{
+        setLogin(state, action){
+            if(action && action.payload && typeof action.payload.isLogin !== 'undefined'){
+                state.isLogin = action.payload.isLogin;
+            }
+        }
+    }
+});
+
+export const {setLogin} = authSlice.actions;
+
+const authReducer = authSlice.reducer;
+export default authReducer;
+```
+
+#### Langkah 4:
+>Selanjutnya kita buat file `redux/store/store.js` seperti berikut
+
+``` tsx
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import authReducer from '../auth/authSlice';
+import storage from 'redux-persist/lib/storage';
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+
+
+const persistConfig = {
+    key: process.env.NEXT_PUBLIC_FINGERPRINT_NAME,  
+    storage,
+    whitelist: ['auth'],
+};
+
+const rootReducer = combineReducers({
+    auth:authReducer,
+})
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+        }),
+});
+
+const persistor = persistStore(store);
+export { store, persistor };
+```
+#### Soal 1:
+>Coba akses `http://localhost:3000/login,` dan klik tombol login. Kemudian lakukan refresh page berkali-kali `(jika perlu restart npm run dev nya)`. Simpulkan apa yang terjadi ?
+
+![Output](docs/image/soal1.gif)
+
+#### Soal 2:
+>Baris 25 dan 30 terdapat method `parse()`, apa yang terjadi jika kita tidak menggunakan method tersebut?
+
+![Output](docs/image/soal2.png)
+
+>react tidak dapat mengkonversi string HTML menjadi elemen React secara otomatis. Sebagai gantinya,akan mengirimkan `string HTML mentah ke JSX`, yang tidak akan dikenali oleh React sebagai elemen React yang valid, sehingga akan muncul error tersebut.
+
+
+
