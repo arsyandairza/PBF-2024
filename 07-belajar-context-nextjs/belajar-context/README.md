@@ -117,5 +117,12 @@ export const LevelContext = createContext(1);
 
 > Level context yang pada sebelumnya harus di tempatkan di `heading 1 per 1,` sekarang dapat ditempatkan pada Section menggunakan LevelContext sehingga Heading membaca` LevelContext`dari `Section parent`
 
+#### Langkah 6: Menggunakan dan menyediakan context dari komponen yang sama
 
+### Soal 3:
 
+>Capture hasilnya dan buatlah laporan di`README.md.` Jelaskan apa yang telah Anda pelajari dan bagaimana tampilannya saat ini?
+
+> Jangan lupa push dengan pesan commit: `"W07: Jawaban soal 3".`
+
+> Untuk tampilan sama seperti sebelumnya, tetapi dalam penerapan nya menjadi lebih simple karena LevelContext otomatis mendeteksi level dari parent nya, sehingga jika ada Section di dalam Section, otomatis Level parent bertambah 1 dari level sebelumnya
