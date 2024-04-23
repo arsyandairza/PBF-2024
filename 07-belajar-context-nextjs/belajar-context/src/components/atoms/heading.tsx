@@ -1,3 +1,6 @@
+import { LevelContext } from "@/utilities/context/mycontext";
+import { useContext } from "react";
+
 export default function Heading({ level, children }: { level: number; children: any }) {
     switch (level) {
         case 1:

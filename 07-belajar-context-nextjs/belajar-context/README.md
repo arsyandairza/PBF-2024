@@ -87,3 +87,35 @@ export default function MainPage() {
 
 > Pada kode diatas komponen templates `main_page` memanggil komponen heading dengan level heading yang berbeda beda, section pada komponen atoms digunakan untuk membungkus komponen heading
 
+#### Langkah 5.1: Buat Context
+
+> Pertama, Anda perlu membuat context. Anda harus mengekspornya dari sebuah file sehingga komponen Anda dapat menggunakannya. Buatlah file baru di `src\utilities\context\mycontext.tsx` yang berisi kode sebagai berikut:
+``` tsx
+import { createContext } from "react";
+
+export const LevelContext = createContext(1);
+```
+
+#### Langkah 5.2: Gunakan context
+
+> Ubahlah isi kode komponen Heading dengan Impor useContext Hook dari `React` dan `context Anda`:
+
+#### Langkah 5.3: Sediakan context
+
+### Soal 2: 
+> Capture hasilnya dan buatlah laporan di `README.md`. Jelaskan apa yang telah Anda pelajari dan bagaimana tampilannya saat ini?
+
+>Jika terjadi error, silakan perbaiki, Mengapa hal itu bisa terjadi? Jelaskan!
+
+>Jangan lupa push dengan pesan commit: `W07: Jawaban soal 2".`
+
+![Output](docs/image/P1L5.png)
+
+>Error terjadi karena react membutuhkan `"use client"`
+
+![Output](docs/image/P1L5.3.png)
+
+> Level context yang pada sebelumnya harus di tempatkan di `heading 1 per 1,` sekarang dapat ditempatkan pada Section menggunakan LevelContext sehingga Heading membaca` LevelContext`dari `Section parent`
+
+
+
