@@ -126,3 +126,153 @@ export const LevelContext = createContext(1);
 > Jangan lupa push dengan pesan commit: `"W07: Jawaban soal 3".`
 
 > Untuk tampilan sama seperti sebelumnya, tetapi dalam penerapan nya menjadi lebih simple karena LevelContext otomatis mendeteksi level dari parent nya, sehingga jika ada Section di dalam Section, otomatis Level parent bertambah 1 dari level sebelumnya
+
+# Praktikum 2:  Membuat Context melewati komponen perantara
+
+#### Langkah 1: Buat komponen atom baru
+> Buatlah file baru di `src\components\atoms\section2.tsx` berisi kode sebagai berikut.
+
+``` tsx
+import { LevelContext } from "@/utilities/context/mycontext";
+import { useContext } from "react";
+
+export default function Section2({children, isFancy}: {children: any, isFancy: boolean}){
+    const level = useContext(LevelContext);
+    return(
+        <section className={'section' + (isFancy?'Fancy':'')}>
+            <LevelContext.Provider value={level+1}>
+                {children}
+            </LevelContext.Provider>
+        </section>
+    )
+}
+```
+
+#### Langkah 1.2: Lalu buatlah file baru di `src\components\atoms\post.tsx` dengan kode berikut.
+``` tsx 
+import Heading from "./heading";
+import Section2 from "./section2";
+
+export default function Post({title, body}: {title: string, body: string}){
+    return(
+        <Section2 isFancy={true}>
+            <Heading>
+                {title}
+            </Heading>
+            <p><i>{body}</i></p>
+        </Section2>
+    )
+}
+```
+
+#### Langkah 1.3: Selanjutnya kita buat molecules di `src\components\molecules\recentpost.tsx` dengan kode berikut.
+
+``` tsx
+import Heading from "../atoms/heading";
+import Post from "../atoms/post";
+import Section2 from "../atoms/section2";
+
+export default function RecentPosts() {
+    return(
+        <Section2 isFancy= {true}>
+            <Heading>Posting Terbaru</Heading>
+            <Post title="Maulidio Farhan Rizkullah" body="2141720041"/>
+            <Post title="Cita Rasa Lisbon" body="...those pasteis de nata!"/>
+            <Post title="Buenos Aires dalam irama tango" body="Saya Menyukainya!"/>
+        </Section2>
+    )
+}
+```
+
+#### Langkah 1.4: Kemudian buat organisms di `src\components\organisms\allpost.tsx` dengan kode berikut.
+
+``` tsx
+import Heading from "../atoms/heading";
+import Section2 from "../atoms/section2";
+import RecentPosts from "../molecules/recentpost";
+
+export default function AllPosts(){
+    return(
+        <Section2 isFancy={true}>
+            <Heading>Posts</Heading>
+            <RecentPosts/>
+        </Section2>
+    )
+}
+```
+ 
+#### Langkah 1.5: Terakhir kita buat templates di `src\components\templates\profile_page.tsx` dengan kode berikut.
+``` tsx
+import Heading from "../atoms/heading";
+import Post from "../atoms/post";
+import Section2 from "../atoms/section2";
+import AllPosts from "../organisms/allpost";
+
+export default function ProfilePage(){
+    return(
+        <Section2 isFancy={true}>
+            <Heading>Profil Saya</Heading>
+            <Post title="Hello traveller!" body="Baca tentang petualangan saya"/>
+            <AllPosts/>
+        </Section2>
+    )
+}
+```
+
+#### Langkah 2: Tambahkan `ProfilePage` ke `page.tsx` lalu run
+
+``` tsx
+"use client";
+
+import MainPage from "@/components/templates/main_page";
+import ProfilePage from "@/components/templates/profile_page";
+
+export default function home() {
+  return (
+    <>
+      <MainPage />
+      <hr />
+      <ProfilePage />
+      </>
+  );
+}
+```
+#### Langkah 2.1: Hapus bagian theme pada file `tailwind.config.ts` seperti kode berikut.
+
+``` tsx
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    },
+  plugins: [],
+};
+export default config;
+```
+
+#### Langkah 2.2: Hapus semua style CSS di file `src\app\globals.css` lalu ganti dengan kode berikut.
+
+``` tsx
+section {
+  border-color: black;
+  border-width: 2px;
+  padding-left: 15px;
+  margin: 3px;
+  border-style: dashed;
+}
+```
+
+#### Hasil: Ketika Anda run dengan `npm run dev` maka di browser akan tampil seperti berikut.
+
+### Soal 4
+
+> Capture hasilnya dan buatlah laporan di `README.md.` Tambahkan teks Nama dan NIM pada bagian komponen Post agar menunjukkan itu hasil kerja Anda!
+
+> Jangan lupa push dengan pesan commit:`"W07: Jawaban soal 4".`
+
+![Output](docs/image/P2Soal4.png)
