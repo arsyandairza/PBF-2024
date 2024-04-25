@@ -276,3 +276,156 @@ section {
 > Jangan lupa push dengan pesan commit:`"W07: Jawaban soal 4".`
 
 ![Output](docs/image/P2Soal4.png)
+
+# Praktikum 3: Membuat Context Tema `Light/Dark`
+
+#### Langkah 1: Membuat variabel tema
+> Buatlah file dan folder baru di `src\utilities\themes\mythemes.tsx` yang berisi kode berikut.
+``` tsx
+export const themes = {
+    'dark': {
+        background: 'black',
+        color: 'white',
+    },
+    'light':{
+        background: 'white',
+        color: 'black',
+    },
+};
+```
+
+#### Langkah 1.2: Kemudian buatlah contextnya di file `src\utilities\contexts\mycontext.tsx`
+``` tsx
+import { createContext } from "react";
+import { themes } from "../themes/mythemes";
+
+export const LevelContext = createContext(0);
+
+export const ThemeContext = createContext({
+    theme: themes.light,
+    toggleTheme: () => {},
+})
+```
+
+#### Langkah 2: Buat komponen atom NavBar
+> Buatlah file baru di `src\components\atoms\navbar.tsx`
+
+``` tsx
+import { ThemeContext } from "@/utilities/contexts/mycontext";
+import { themes } from "@/utilities/themes/mythemes";
+import Link from "next/link";
+import { useContext } from "react";
+
+export default function Navbar(){
+    const { toggleTheme, theme } = useContext(ThemeContext);
+    const newThemeName = theme === themes.dark ? 'light' : 'dark';
+    return(
+        <div>
+            <div> My Website</div>
+            <div>
+                <Link href="/">Home</Link>
+                <Link href="/about">About</Link>
+                <Link href="/contacts"> Contacts</Link>
+                <Link href="/profile">Profile</Link>
+                <button onClick={toggleTheme}>Set {newThemeName} theme</button>
+            </div>
+        </div>
+    )
+}
+```
+
+#### Langkah 3: Buat Provider
+> Buatlah provider di `src\components\atoms\myapp.tsx`
+
+``` tsx
+import { ThemeContext } from "@/utilities/contexts/mycontext";
+import { themes } from "@/utilities/themes/mythemes";
+import { useState, useEffect } from "react";
+import Navbar from "./navbar";
+
+export default function MyApp({ Component, pageProps }: { Component: any, pageProps: any }) {
+    const [theme, setTheme] = useState(() => {
+        const storedTheme = localStorage.getItem('theme');
+        return storedTheme ? JSON.parse(storedTheme) : themes.light;
+    });
+
+    const toggleTheme = () => {
+        const newTheme = theme === themes.dark ? themes.light : themes.dark;
+        setTheme(newTheme);
+        localStorage.setItem('theme', JSON.stringify(newTheme));
+    };
+
+    useEffect(() => {
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme && JSON.parse(storedTheme) !== theme) {
+            setTheme(JSON.parse(storedTheme));
+        }
+    }, []);
+
+    return (
+        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+            <div
+                style={{
+                    width: '100%',
+                    minHeight: '100vh',
+                    ...theme,
+                }}>
+                <Navbar />
+                <Component {...pageProps} />
+            </div>
+        </ThemeContext.Provider>
+    )
+}
+``` 
+
+#### Langkah 4: Buat Masing Masing Page
+> Pindahkan komponen ProfilePage ke file `src\components\templates\profile_page.tsx`
+
+``` tsx
+import Heading from "../atoms/heading";
+import Post from "../atoms/post";
+import Section2 from "../atoms/section2";
+import AllPosts from "../organisms/allpost";
+
+export default function ProfilePage(){
+    return(
+        <Section2 isFancy={true}>
+            <Heading>Profil Saya</Heading>
+            <Post title="Hello traveller!" body="Baca tentang petualangan saya"/>
+            <AllPosts/>
+        </Section2>
+    )
+}
+```
+
+#### Langkah 5: Buat Routing 
+>Gantilah isi kode pada `src\app\page.tsx` menjadi seperti berikut.
+
+``` tsx
+"use client";
+
+import MyApp from "@/components/atoms/myapp";
+import MainPage from "@/components/templates/main_page";
+
+export default function Home(){
+  return <MyApp Component={MainPage} pageProps={undefined}/>;
+}
+```
+
+## Soal 5
+
+> Silakan save semua dan lakukan running di browser Anda. Capture hasilnya dan buatlah laporan di README.md. Tambahkan teks Nama dan NIM pada setiap page routing agar menunjukkan itu hasil kerja Anda sendiri!
+
+> 1. Apakah toggle button tema sudah berfungsi ? jika belum, silakan perbaiki!
+> 2. Mengapa ketika refresh atau berpindah halaman tema tidak permanen ? Buatlah menjadi permanen walaupun page sudah direfresh dan pindah halaman!
+
+> Jangan lupa push dengan pesan commit: `"W07: Jawaban soal 5".`
+
+## Jawab 
+
+![Output](docs/image/P3.gif)
+
+
+
+
+
